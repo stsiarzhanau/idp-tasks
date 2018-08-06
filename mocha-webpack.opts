@@ -1,0 +1,5 @@
+--include tools/testSetup.js tools/jsdomSetup.js
+--reporter progress
+--webpack-config webpack.config.js
+
+src/**/*.test.js
