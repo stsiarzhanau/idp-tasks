@@ -41,27 +41,27 @@ const bestSet = [
 ]
 
 describe('#getPowerSet()', () => {
-  it('makes power set from the set of the items', () => {
+  it('makes power set from the set of the items', function () {
     expect(getPowerSet(in1)).to.deep.equal(out1)
     expect(getPowerSet(items).length).to.equal(2 ** items.length)
   })
 })
 
 describe('#getSetWeight()', () => {
-  it('correctly calculates weight of the set of the items', () => {
+  it('correctly calculates weight of the set of the items', function () {
     expect(getSetWeight(items)).to.equal(totalWeight)
   })
 })
 
 describe('#getSetPrice()', () => {
-  it('correctly calculates price of the set of the items', () => {
+  it('correctly calculates price of the set of the items', function () {
     expect(getSetPrice(items)).to.equal(totalPrice)
   })
 })
 
 
 describe('сustom event system', () => {
-  it('runs registered callback when event is emitted ', () => {
+  it('runs registered callback when event is emitted ', function () {
     expect(getBestSet(items, maxWeight)).to.deep.equal(bestSet)
   })
 })

@@ -8,7 +8,7 @@ emitter.on('setFoo', (data) => { in1.foo = data })
 emitter.emit('setFoo', 'bar')
 
 describe('сustom event system', () => {
-  it('runs registered callback when event is emitted', () => {
+  it('runs registered callback when event is emitted', function () {
     expect(in1).to.deep.equal(out1)
   })
 })
