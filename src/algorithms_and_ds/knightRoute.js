@@ -51,8 +51,7 @@ export const createBoard = (size) => {
   return graph
 }
 
-const findKnightRoute = (graph, startVertexKey, visitedVertexKeys = []) => {
-  const verticesCount = graph.getAllVertices().length
+function findRoute(graph, startVertexKey, verticesCount, visitedVertexKeys = []) {
   const currentVertex = graph.findVertexByKey(startVertexKey)
   visitedVertexKeys.push(currentVertex.getKey())
 
@@ -63,10 +62,12 @@ const findKnightRoute = (graph, startVertexKey, visitedVertexKeys = []) => {
       .filter(vertex => !visitedVertexKeys.includes(vertex.getKey()))
       .sort((a, b) => a.getDegree() - b.getDegree())
 
+    // console.log(visitedVertexKeys.length, currentVertex.getKey(), nextVertices.map(v => v.getKey()))
+
     nextVertices.forEach((nextV) => {
       if (!done) {
         const nextKey = nextV.getKey();
-        ({ done } = findKnightRoute(graph, nextKey, visitedVertexKeys))
+        ({ done } = findRoute(graph, nextKey, verticesCount, visitedVertexKeys))
       }
     })
 
@@ -75,13 +76,31 @@ const findKnightRoute = (graph, startVertexKey, visitedVertexKeys = []) => {
     }
   } else {
     // eslint-disable-next-line no-console
-    console.log(visitedVertexKeys)
+    console.log('Route: ', visitedVertexKeys)
     done = true
   }
   return {
     done,
     visitedVertexKeys,
   }
+}
+
+const findKnightRoute = (size, startVertexKey) => {
+  const board = createBoard(size)
+  const verticesCount = board.getAllVertices().length
+
+  const [columnIndex, rowIndex] = startVertexKey.split('')
+    .map((name, i) => (i === 0 ? COLUMN_NAMES.indexOf(name) : ROW_NAMES.indexOf(name)))
+
+  if (size < 5 || size > 10) {
+    throw new Error('Not supported board size. Supported size range is from 5 to 10.')
+  }
+
+  if (verticesCount % 2 !== 0 && (columnIndex + rowIndex) % 2 !== 0) {
+    throw new Error(`It's impossible to build knight route for the given board starting from the given square.
+     Pick another one for each sum of row number and column number is even.`)
+  }
+  return findRoute(board, startVertexKey, verticesCount)
 }
 
 export default findKnightRoute
